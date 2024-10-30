@@ -91,17 +91,8 @@ func Main() error {
 		Name: f.Name,
 		Decls: []ast.Decl{
 			&ast.GenDecl{
-				Tok: token.IMPORT,
-				Specs: []ast.Spec{
-					&ast.ImportSpec{
-						Name: nil,
-						Path: &ast.BasicLit{
-							Kind:  token.STRING,
-							Value: "\"fmt\"",
-						},
-						Comment: nil,
-					},
-				},
+				Tok:   token.IMPORT,
+				Specs: []ast.Spec{&ast.ImportSpec{Path: &ast.BasicLit{Kind: token.STRING, Value: "\"fmt\""}}},
 			},
 			&ast.FuncDecl{
 				Recv: &ast.FieldList{List: []*ast.Field{{Names: []*ast.Ident{recv}, Type: typ}}},
@@ -115,11 +106,9 @@ func Main() error {
 						Tag:  recv,
 						Body: &ast.BlockStmt{List: clauses},
 					},
-					&ast.ReturnStmt{
-						Results: []ast.Expr{&ast.CallExpr{
-							Fun:  &ast.SelectorExpr{X: &ast.Ident{Name: "fmt"}, Sel: &ast.Ident{Name: "Errorf"}},
-							Args: []ast.Expr{&ast.BasicLit{Kind: token.STRING, Value: "\"invalid value\""}},
-						}},
+					&ast.ReturnStmt{Results: []ast.Expr{&ast.CallExpr{
+						Fun:  &ast.SelectorExpr{X: &ast.Ident{Name: "fmt"}, Sel: &ast.Ident{Name: "Errorf"}},
+						Args: []ast.Expr{&ast.BasicLit{Kind: token.STRING, Value: "\"invalid value\""}}}},
 					},
 				}},
 			},
