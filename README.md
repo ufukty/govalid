@@ -19,3 +19,9 @@ Usage:
 ```sh
 govalid -in filename.go -type Planet
 ```
+
+Install:
+
+```sh
+go install github.com/ufukty/govalid@latest
+```
