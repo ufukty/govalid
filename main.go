@@ -22,6 +22,10 @@ func initial(s string) string {
 	return strings.ToLower(string(s[0]))
 }
 
+func quotes(s string) string {
+	return fmt.Sprintf("%q", s)
+}
+
 func Main() error {
 	args := Args{}
 
@@ -94,7 +98,7 @@ func Main() error {
 		Decls: []ast.Decl{
 			&ast.GenDecl{
 				Tok:   token.IMPORT,
-				Specs: []ast.Spec{&ast.ImportSpec{Path: &ast.BasicLit{Kind: token.STRING, Value: "\"fmt\""}}},
+				Specs: []ast.Spec{&ast.ImportSpec{Path: &ast.BasicLit{Kind: token.STRING, Value: quotes("fmt")}}},
 			},
 			&ast.FuncDecl{
 				Recv: &ast.FieldList{List: []*ast.Field{{Names: []*ast.Ident{recv}, Type: typ}}},
@@ -109,8 +113,11 @@ func Main() error {
 						Body: &ast.BlockStmt{List: clauses},
 					},
 					&ast.ReturnStmt{Results: []ast.Expr{&ast.CallExpr{
-						Fun:  &ast.SelectorExpr{X: &ast.Ident{Name: "fmt"}, Sel: &ast.Ident{Name: "Errorf"}},
-						Args: []ast.Expr{&ast.BasicLit{Kind: token.STRING, Value: "\"invalid value\""}}}},
+						Fun: &ast.SelectorExpr{X: &ast.Ident{Name: "fmt"}, Sel: &ast.Ident{Name: "Errorf"}},
+						Args: []ast.Expr{
+							&ast.BasicLit{Kind: token.STRING, Value: `"invalid value: %q"`},
+							recv,
+						}}},
 					},
 				}},
 			},
